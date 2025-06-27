@@ -77,26 +77,17 @@ function displayRelatedVideos(currentFilename, allFilenames) {
     const relatedVideos = document.getElementById('relatedVideos');
 
     // Find the index of the current file
-    const currentIndex = allFilenames.indexOf(currentFilename);
+    let currentIndex = allFilenames.indexOf(currentFilename);
+    if( currentIndex === -1)
+        currentIndex = 0
 
-    // Get files that come after the current one (wrap around if needed)
-    let relatedFilenames = [];
-    if (currentIndex !== -1) {
-        // Get up to 6 related videos
-        for (let i = 1; i <= 6; i++) {
-            const index = (currentIndex + i) % allFilenames.length;
-            relatedFilenames.push(allFilenames[index]);
-        }
-    } else {
-        // If current file not found, just use the first 6 files
-        relatedFilenames = allFilenames.slice(0, 6);
-    }
+    const relatedFileNames = allFilenames.slice(currentIndex, (currentIndex + 6 ) % allFilenames.length)
 
     // Clear existing related videos
     relatedVideos.innerHTML = '';
 
     // Add the related videos to the DOM
-    relatedFilenames.forEach((filename) => {
+    relatedFileNames.forEach((filename) => {
         const mediaItem = createMediaItem(filename);
         relatedVideos.appendChild(mediaItem);
     });
