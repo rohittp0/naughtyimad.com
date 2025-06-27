@@ -6,7 +6,7 @@
  * @returns {string} The value of the parameter
  */
 export function getUrlParameter(name) {
-    name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
+    name = name.replace(/\[/, '\\[').replace(/]/, '\\]');
     const regex = new RegExp('[\\?&]' + name + '=([^&#]*)');
     const results = regex.exec(location.search);
     return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
@@ -77,9 +77,14 @@ export function createMediaGrid(filenames) {
     const mediaGrid = document.getElementById('mediaGrid');
 
     mediaGrid.innerHTML = '';
-    filenames.forEach((filename, index) => {
+
+    filenames.forEach((filename) => {
         const fileType = getFileType(filename);
         const mediaItem = document.createElement('div');
+        const name = filename.split('.')[0]; // Get the name without extension
+        const number = uniqueNumberFromString(filename);
+        const views = (number % 10) / 10 || 1
+
         mediaItem.className = 'media-item';
         mediaItem.dataset.filename = filename;
 
@@ -88,52 +93,29 @@ export function createMediaGrid(filenames) {
             <div class="media-thumbnail">
                 ${fileType === 'video'
             ? `<video src="media/${filename}" muted></video>`
-            : `<img src="media/${filename}" alt="${filename}">`
+            : `<img src="media/${filename}" alt="${name}">`
         }
                 <div class="media-type">${fileType === 'video' ? 'VIDEO' : 'IMAGE'}</div>
             </div>
             <div class="media-info">
-                <div class="media-title">Hot ${fileType === 'video' ? 'Video' : 'Image'} ${index + 1}</div>
+                <div class="media-title">Hot ${fileType === 'video' ? 'Video' : 'Image'} ${name}</div>
                 <div class="media-meta">
-                    <span>1.2M views</span>
-                    <span>95%</span>
+                    <span>${views}M views</span>
+                    <span>${number % 100}</span>
                 </div>
             </div>
         `;
 
         // Add click event to navigate to view_video page
         mediaItem.addEventListener('click', () => {
-            window.location.href = `/view_video/?id=${filename}`;
+            window.location.href = `/view_video?id=${filename}`;
         });
 
         mediaGrid.appendChild(mediaItem);
     });
-    filenames.forEach((filename, index) => {
-        const fileType = getFileType(filename);
-        const mediaItem = document.createElement('div');
-        mediaItem.className = 'media-item';
-        mediaItem.dataset.filename = filename;
-        mediaItem.innerHTML = `
-            <div class="media-thumbnail">
-                ${fileType === 'video'
-            ? `<video src="media/${filename}" muted></video>`
-            : `<img src="media/${filename}" alt="${filename}">`}
-                <div class="media-type">${fileType === 'video' ? 'VIDEO' : 'IMAGE'}</div>
-            </div>
-            <div class="media-info">
-                <div class="media-title">Hot ${fileType === 'video' ? 'Video' : 'Image'} ${index + 1}</div>
-                <div class="media-meta">
-                    <span>1.2M views</span>
-                    <span>95%</span>
-                </div>
-            </div>`;
-        mediaItem.addEventListener('click', () => {
-            window.location.href = `/view_video/?id=${filename}`;
-        });
-        mediaGrid.appendChild(mediaItem);
-    });
+}
 
-export const uniqueNumberFromString = ( str ) => {
+export function uniqueNumberFromString(str) {
     let results = ""
     for (let i = 0; i < str.length; i++) {
         results += str[i].charCodeAt(0)

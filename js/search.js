@@ -1,5 +1,5 @@
 import { initBanner } from './banner.js';
-import { getFileType, getUrlParameter, loadMediaFiles } from './utils.js';
+import {createMediaGrid, getUrlParameter, loadMediaFiles} from './utils.js';
 
 const searchHeading = document.getElementById('searchHeading');
 

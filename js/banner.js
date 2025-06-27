@@ -1,3 +1,19 @@
+function setupSearchBar() {
+    const searchInput = document.getElementById('search');
+    const searchBtn = document.getElementById('searchBtn');
+
+    const handler = () => {
+        const term = searchInput.value.trim();
+        if (term) {
+            window.location.href = `/search/?search=${encodeURIComponent(term)}`;
+        }
+    };
+    searchBtn.addEventListener('click', handler);
+    searchInput.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter') handler();
+    });
+}
+
 /**
  * Initialize the age verification banner
  * @param {Function} onProceed - Callback function to execute when user proceeds
@@ -7,6 +23,8 @@ export function initBanner(onProceed) {
     const mainContent = document.getElementById('mainContent');
     const yesButton = document.getElementById('ageVerificationYes');
     const noButton = document.getElementById('ageVerificationNo');
+
+    setupSearchBar()
 
     // Check if user has already verified age
     if (localStorage.getItem('ageVerified') === 'true') {
