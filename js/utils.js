@@ -132,4 +132,11 @@ export function createMediaGrid(filenames) {
         });
         mediaGrid.appendChild(mediaItem);
     });
+
+export const uniqueNumberFromString = ( str ) => {
+    let results = ""
+    for (let i = 0; i < str.length; i++) {
+        results += str[i].charCodeAt(0)
+    }
+    return parseInt(results)
 }
