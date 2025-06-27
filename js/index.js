@@ -9,13 +9,12 @@ async function loadMediaFiles() {
     try {
         const response = await fetch('index.txt');
         if (!response.ok) {
-            throw new Error('Failed to load media files');
+            console.error(await response.text());
+            return [];
         }
 
         const text = await response.text();
-        const filenames = text.trim().split('\n');
-
-        return filenames;
+        return text.trim().split('\n');
     } catch (error) {
         console.error('Error loading media files:', error);
         return [];
@@ -105,4 +104,4 @@ async function initPage() {
 }
 
 // Initialize the page
-initPage();
+initPage().then();
