@@ -26,8 +26,31 @@
 
     <!-- Main Content (hidden until age verification) -->
     <div class="content" id="mainContent">
-        <h1>Welcome to NaughtyImad.com</h1>
-        <p>This is the main content of the website that will be shown after age verification.</p>
+        <header class="site-header">
+            <div class="logo">NaughtyImad.com</div>
+            <nav class="main-nav">
+                <ul>
+                    <li><a href="#" class="active">Home</a></li>
+                    <li><a href="#">Categories</a></li>
+                    <li><a href="#">Live Cams</a></li>
+                </ul>
+            </nav>
+            <div class="search-bar">
+                <input type="text" placeholder="Search videos...">
+                <button>Search</button>
+            </div>
+        </header>
+
+        <main>
+            <h1>Hot Videos</h1>
+            <div class="media-grid" id="mediaGrid">
+                <!-- Media items will be dynamically inserted here by JavaScript -->
+            </div>
+        </main>
+
+        <footer>
+            <p>&copy; 2023 NaughtyImad.com - All Rights Reserved</p>
+        </footer>
     </div>
 
     <script src="js/index.js" defer></script>

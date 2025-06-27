@@ -7,9 +7,158 @@ body {
 }
 
 .content {
+    padding: 0;
+    display: none; /* Hidden until age verification */
+    background-color: #0f0f0f;
+    min-height: 100vh;
+}
+
+/* Header styles */
+.site-header {
+    background-color: #1b1b1b;
+    padding: 15px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    border-bottom: 1px solid #333;
+}
+
+.logo {
+    font-size: 24px;
+    font-weight: bold;
+    color: #ff9000;
+}
+
+.main-nav ul {
+    display: flex;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.main-nav li {
+    margin: 0 10px;
+}
+
+.main-nav a {
+    color: #fff;
+    text-decoration: none;
+    padding: 5px 10px;
+    transition: color 0.3s;
+}
+
+.main-nav a:hover, .main-nav a.active {
+    color: #ff9000;
+}
+
+.search-bar {
+    display: flex;
+    margin-left: auto;
+}
+
+.search-bar input {
+    padding: 8px 12px;
+    border: none;
+    border-radius: 4px 0 0 4px;
+    background-color: #333;
+    color: #fff;
+}
+
+.search-bar button {
+    padding: 8px 12px;
+    border: none;
+    border-radius: 0 4px 4px 0;
+    background-color: #ff9000;
+    color: #000;
+    cursor: pointer;
+}
+
+/* Main content styles */
+main {
+    padding: 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+main h1 {
+    color: #fff;
+    margin-bottom: 20px;
+    font-size: 24px;
+}
+
+/* Media grid styles */
+.media-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 20px;
+}
+
+.media-item {
+    background-color: #1b1b1b;
+    border-radius: 4px;
+    overflow: hidden;
+    transition: transform 0.3s;
+    cursor: pointer;
+}
+
+.media-item:hover {
+    transform: translateY(-5px);
+}
+
+.media-thumbnail {
+    position: relative;
+    width: 100%;
+    height: 0;
+    padding-bottom: 56.25%; /* 16:9 aspect ratio */
+    overflow: hidden;
+}
+
+.media-thumbnail img, .media-thumbnail video {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.media-info {
+    padding: 10px;
+}
+
+.media-title {
+    font-size: 16px;
+    margin-bottom: 5px;
+    color: #fff;
+}
+
+.media-meta {
+    display: flex;
+    justify-content: space-between;
+    font-size: 14px;
+    color: #aaa;
+}
+
+.media-type {
+    background-color: rgba(255, 144, 0, 0.8);
+    color: #000;
+    padding: 3px 8px;
+    border-radius: 3px;
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    font-size: 12px;
+    font-weight: bold;
+}
+
+/* Footer styles */
+footer {
+    background-color: #1b1b1b;
     padding: 20px;
     text-align: center;
-    display: none; /* Hidden until age verification */
+    color: #aaa;
+    border-top: 1px solid #333;
 }
 
 /* Age verification popup styles */
