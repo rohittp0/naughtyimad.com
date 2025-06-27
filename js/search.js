@@ -10,7 +10,15 @@ async function loadSearchResults() {
     }
     const filenames = await loadMediaFiles();
     const filtered = filenames.filter(name => name.toLowerCase().includes(searchTerm));
-    createMediaGrid(filtered);
+
+    if (filtered.length === 0) {
+        const noResultsMessage = document.createElement('div');
+        noResultsMessage.className = 'no-results';
+        noResultsMessage.textContent = 'No results found.';
+        document.getElementById('mediaGrid').appendChild(noResultsMessage);
+    }
+    else
+        createMediaGrid(filtered);
 }
 
 initBanner(loadSearchResults);

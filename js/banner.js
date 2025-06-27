@@ -5,7 +5,7 @@ function setupSearchBar() {
     const handler = () => {
         const term = searchInput.value.trim();
         if (term) {
-            window.location.href = `/search/?search=${encodeURIComponent(term)}`;
+            window.location.href = `/search?search=${encodeURIComponent(term)}`;
         }
     };
     searchBtn.addEventListener('click', handler);
