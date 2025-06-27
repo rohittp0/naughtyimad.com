@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>View Video - NaughtyImad.com</title>
+    <link rel="stylesheet" href="css/index.css">
+    <link rel="stylesheet" href="css/view_video.css">
+</head>
+<body>
+    <!-- Age Verification Popup -->
+    <div class="age-verification-overlay" id="ageVerification">
+        <div class="age-verification-container">
+            <div class="age-verification-logo">NaughtyImad.com</div>
+            <div class="age-verification-title">AGE VERIFICATION</div>
+            <div class="age-verification-text">
+                <p>This website contains adult content and is only suitable for adults.</p>
+                <p>You must be at least 18 years old (or the age of legal majority in your jurisdiction) to enter this website.</p>
+                <p>By entering this website, you confirm that you are of legal age and that it is legal to view adult content in your location.</p>
+            </div>
+            <div class="age-verification-buttons">
+                <button class="age-btn age-btn-yes" id="ageVerificationYes">I AM AT LEAST 18 YEARS OLD</button>
+                <button class="age-btn age-btn-no" id="ageVerificationNo">I AM UNDER 18</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content (hidden until age verification) -->
+    <div class="content" id="mainContent">
+        <header class="site-header">
+            <div class="logo">NaughtyImad.com</div>
+            <nav class="main-nav">
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="#">Categories</a></li>
+                    <li><a href="#">Live Cams</a></li>
+                    <li><a href="#">Pornstars</a></li>
+                </ul>
+            </nav>
+            <div class="search-bar">
+                <input type="text" placeholder="Search videos...">
+                <button>Search</button>
+            </div>
+        </header>
+
+        <div class="banner-ad">
+            <div class="ad-container">ADVERTISEMENT</div>
+        </div>
+
+        <main class="video-page">
+            <div class="video-container" id="videoContainer">
+                <!-- Video or image will be inserted here by JavaScript -->
+            </div>
+
+            <div class="video-info-container">
+                <div class="video-info">
+                    <h1 class="video-title" id="videoTitle">Loading...</h1>
+                    <div class="video-meta">
+                        <div class="video-views">1.2M views</div>
+                        <div class="video-rating">
+                            <span class="rating-percentage">95%</span>
+                            <div class="rating-buttons">
+                                <button class="rating-btn like-btn">👍</button>
+                                <button class="rating-btn dislike-btn">👎</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="video-actions">
+                        <button class="action-btn"><span class="icon">⭐</span> Favorite</button>
+                        <button class="action-btn"><span class="icon">📥</span> Download</button>
+                        <button class="action-btn"><span class="icon">📤</span> Share</button>
+                    </div>
+                </div>
+
+                <div class="uploader-info">
+                    <div class="uploader">
+                        <img src="/image/dp.jpg" alt="imad" class="uploader-avatar">
+                        <div class="uploader-details">
+                            <a href="#" class="uploader-name">imad</a>
+                            <div class="uploader-stats">
+                                <span>100K subscribers</span>
+                            </div>
+                        </div>
+                    </div>
+                    <button class="subscribe-btn">SUBSCRIBE</button>
+                </div>
+
+                <div class="video-description">
+                    <p>Check out this amazing content! Don't forget to like and subscribe for more.</p>
+                    <div class="video-tags">
+                        <a href="#" class="tag">amateur</a>
+                        <a href="#" class="tag">homemade</a>
+                        <a href="#" class="tag">HD</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="comments-section">
+                <h3 class="section-title">Comments (<span id="commentCount">0</span>)</h3>
+                <div class="comment-form">
+                    <textarea placeholder="Add a comment..."></textarea>
+                    <button class="comment-btn">Post Comment</button>
+                </div>
+                <div class="comments-list" id="commentsList">
+                    <!-- Comments will be inserted here by JavaScript -->
+                </div>
+            </div>
+
+            <div class="related-videos">
+                <h3 class="section-title">Related Videos</h3>
+                <div class="media-grid" id="relatedVideos">
+                    <!-- Related videos will be inserted here by JavaScript -->
+                </div>
+            </div>
+        </main>
+
+        <footer>
+            <div class="footer-container">
+                <div class="footer-top">
+                    <div class="footer-logo">NaughtyImad.com</div>
+                    <div class="footer-links">
+                        <div class="footer-column">
+                            <h4>Information</h4>
+                            <ul>
+                                <li><a href="#">Content Removal</a></li>
+                                <li><a href="#">Terms of Service</a></li>
+                                <li><a href="#">Privacy Policy</a></li>
+                                <li><a href="#">DMCA</a></li>
+                                <li><a href="#">2257 Statement</a></li>
+                            </ul>
+                        </div>
+                        <div class="footer-column">
+                            <h4>Work With Us</h4>
+                            <ul>
+                                <li><a href="#">Content Partners</a></li>
+                                <li><a href="#">Advertise</a></li>
+                                <li><a href="#">Webmasters</a></li>
+                                <li><a href="#">Model Program</a></li>
+                                <li><a href="#">Press</a></li>
+                            </ul>
+                        </div>
+                        <div class="footer-column">
+                            <h4>Support</h4>
+                            <ul>
+                                <li><a href="#">FAQ</a></li>
+                                <li><a href="#">Contact</a></li>
+                                <li><a href="#">Feedback</a></li>
+                                <li><a href="#">Site Map</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="footer-bottom">
+                    <p>&copy; 2023 NaughtyImad.com - All Rights Reserved</p>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <script src="js/index.js" defer></script>
+    <script src="js/view_video.js" defer></script>
+</body>
+</html>
