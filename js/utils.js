@@ -73,28 +73,23 @@ export async function loadComments(basePath = '') {
     }
 }
 
-export function createMediaGrid(filenames) {
-    const mediaGrid = document.getElementById('mediaGrid');
+export function createMediaItem(filename) {
+    const fileType = getFileType(filename);
+    const mediaItem = document.createElement('div');
+    const name = filename.split('.')[0]; // Get the name without extension
+    const number = uniqueNumberFromString(filename);
+    const views = (number % 10) / 10 || 1
 
-    mediaGrid.innerHTML = '';
+    mediaItem.className = 'media-item';
+    mediaItem.dataset.filename = filename;
 
-    filenames.forEach((filename) => {
-        const fileType = getFileType(filename);
-        const mediaItem = document.createElement('div');
-        const name = filename.split('.')[0]; // Get the name without extension
-        const number = uniqueNumberFromString(filename);
-        const views = (number % 10) / 10 || 1
-
-        mediaItem.className = 'media-item';
-        mediaItem.dataset.filename = filename;
-
-        // Create HTML structure for media item
-        mediaItem.innerHTML = `
+    // Create HTML structure for media item
+    mediaItem.innerHTML = `
             <div class="media-thumbnail">
                 ${fileType === 'video'
-            ? `<video src="media/${filename}" muted></video>`
-            : `<img src="media/${filename}" alt="${name}">`
-        }
+        ? `<video src="media/${filename}" muted></video>`
+        : `<img src="media/${filename}" alt="${name}">`
+    }
                 <div class="media-type">${fileType === 'video' ? 'VIDEO' : 'IMAGE'}</div>
             </div>
             <div class="media-info">
@@ -106,11 +101,21 @@ export function createMediaGrid(filenames) {
             </div>
         `;
 
-        // Add click event to navigate to view_video page
-        mediaItem.addEventListener('click', () => {
-            window.location.href = `/view_video?id=${filename}`;
-        });
+    // Add click event to navigate to view_video page
+    mediaItem.addEventListener('click', () => {
+        window.location.href = `/view_video?id=${filename}`;
+    });
 
+    return mediaItem;
+}
+
+export function createMediaGrid(filenames) {
+    const mediaGrid = document.getElementById('mediaGrid');
+
+    mediaGrid.innerHTML = '';
+
+    filenames.forEach((filename) => {
+        const mediaItem = createMediaItem(filename);
         mediaGrid.appendChild(mediaItem);
     });
 }
