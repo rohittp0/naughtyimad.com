@@ -43,7 +43,7 @@
             <div class="search-bar">
                 <label for="search" hidden>Search</label>
                 <input type="text" id="search" placeholder="Search videos...">
-                <button>Search</button>
+                <button id="searchBtn">Search</button>
             </div>
         </header>
 
@@ -60,9 +60,9 @@
                 <div class="video-info">
                     <h1 class="video-title" id="videoTitle">Loading...</h1>
                     <div class="video-meta">
-                        <div class="video-views">1.2M views</div>
+                        <div class="video-views"><span id="viewCount">1.2</span>M views</div>
                         <div class="video-rating">
-                            <span class="rating-percentage">95%</span>
+                            <span class="rating-percentage"><span id="likes">95</span>%</span>
                             <div class="rating-buttons">
                                 <button class="rating-btn like-btn">👍</button>
                                 <button class="rating-btn dislike-btn">👎</button>
