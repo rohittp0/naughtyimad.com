@@ -1,28 +1,21 @@
-// Import modules
 import { initBanner } from './banner.js';
-import { getFileType, loadMediaFiles } from './utils.js';
+import { getFileType, getUrlParameter, loadMediaFiles } from './utils.js';
 
 const mediaGrid = document.getElementById('mediaGrid');
-const searchInput = document.getElementById('search');
-const searchBtn = document.getElementById('searchBtn');
+const searchHeading = document.getElementById('searchHeading');
 
-// Function to create media grid items
 function createMediaGrid(filenames) {
     mediaGrid.innerHTML = '';
-
     filenames.forEach((filename, index) => {
         const fileType = getFileType(filename);
         const mediaItem = document.createElement('div');
         mediaItem.className = 'media-item';
         mediaItem.dataset.filename = filename;
-
-        // Create HTML structure for media item
         mediaItem.innerHTML = `
             <div class="media-thumbnail">
-                ${fileType === 'video' 
-                    ? `<video src="media/${filename}" muted></video>` 
-                    : `<img src="media/${filename}" alt="${filename}">`
-                }
+                ${fileType === 'video'
+                    ? `<video src="media/${filename}" muted></video>`
+                    : `<img src="media/${filename}" alt="${filename}">`}
                 <div class="media-type">${fileType === 'video' ? 'VIDEO' : 'IMAGE'}</div>
             </div>
             <div class="media-info">
@@ -31,25 +24,27 @@ function createMediaGrid(filenames) {
                     <span>1.2M views</span>
                     <span>95%</span>
                 </div>
-            </div>
-        `;
-
-        // Add click event to navigate to view_video page
+            </div>`;
         mediaItem.addEventListener('click', () => {
             window.location.href = `/view_video/?id=${filename}`;
         });
-
         mediaGrid.appendChild(mediaItem);
     });
 }
 
-// Function to load and display media
-async function loadAndDisplayMedia() {
+async function loadSearchResults() {
+    const searchTerm = getUrlParameter('search').toLowerCase();
+    if (searchHeading) {
+        searchHeading.textContent = `Search results for "${searchTerm}"`;
+    }
     const filenames = await loadMediaFiles();
-    createMediaGrid(filenames);
+    const filtered = filenames.filter(name => name.toLowerCase().includes(searchTerm));
+    createMediaGrid(filtered);
 }
 
 function setupSearchBar() {
+    const searchInput = document.getElementById('search');
+    const searchBtn = document.getElementById('searchBtn');
     const handler = () => {
         const term = searchInput.value.trim();
         if (term) {
@@ -62,8 +57,7 @@ function setupSearchBar() {
     });
 }
 
-// Initialize the banner with callback
 initBanner(() => {
-    loadAndDisplayMedia();
+    loadSearchResults();
     setupSearchBar();
 });

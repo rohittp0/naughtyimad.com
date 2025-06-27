@@ -2,6 +2,9 @@
 import {getFileType, getUrlParameter, loadComments, loadMediaFiles} from "./utils.js";
 import {initBanner} from "./banner.js";
 
+const searchInput = document.getElementById('search');
+const searchBtn = document.getElementById('searchBtn');
+
 function displayMedia(filename) {
     const videoContainer = document.getElementById('videoContainer');
     const fileType = getFileType(filename);
@@ -138,5 +141,21 @@ async function initPage() {
     displayComments(comments);
 }
 
+function setupSearchBar() {
+    const handler = () => {
+        const term = searchInput.value.trim();
+        if (term) {
+            window.location.href = `/search/?search=${encodeURIComponent(term)}`;
+        }
+    };
+    searchBtn.addEventListener('click', handler);
+    searchInput.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter') handler();
+    });
+}
+
 // Initialize the page
-initBanner(initPage)
+initBanner(() => {
+    initPage();
+    setupSearchBar();
+})
