@@ -111,7 +111,7 @@ function displayRelatedVideos(currentFilename, allFilenames) {
 
         // Add click event to navigate to view_video page
         mediaItem.addEventListener('click', () => {
-            window.location.href = `/view_video/?id=${filename}`;
+            window.location.href = `/view_video?id=${filename}`;
         });
 
         relatedVideos.appendChild(mediaItem);
