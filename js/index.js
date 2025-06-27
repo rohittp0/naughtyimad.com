@@ -3,6 +3,8 @@ import { initBanner } from './banner.js';
 import {getFileType, loadMediaFiles, uniqueNumberFromString} from './utils.js';
 
 const mediaGrid = document.getElementById('mediaGrid');
+const searchInput = document.getElementById('search');
+const searchBtn = document.getElementById('searchBtn');
 
 // Function to create media grid items
 function createMediaGrid(filenames) {
@@ -51,5 +53,21 @@ async function loadAndDisplayMedia() {
     createMediaGrid(filenames);
 }
 
+function setupSearchBar() {
+    const handler = () => {
+        const term = searchInput.value.trim();
+        if (term) {
+            window.location.href = `/search/?search=${encodeURIComponent(term)}`;
+        }
+    };
+    searchBtn.addEventListener('click', handler);
+    searchInput.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter') handler();
+    });
+}
+
 // Initialize the banner with callback
-initBanner(loadAndDisplayMedia);
+initBanner(() => {
+    loadAndDisplayMedia();
+    setupSearchBar();
+});

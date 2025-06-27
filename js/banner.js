@@ -1,5 +1,3 @@
-// banner.js - Module for handling the age verification banner
-
 /**
  * Initialize the age verification banner
  * @param {Function} onProceed - Callback function to execute when user proceeds
