@@ -4,8 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>View Video - NaughtyImad.com</title>
+
     <link rel="stylesheet" href="css/index.css">
     <link rel="stylesheet" href="css/view_video.css">
+
+    <script src="js/view_video.js" defer type="module"></script>
 </head>
 <body>
     <!-- Age Verification Popup -->
@@ -38,7 +41,8 @@
                 </ul>
             </nav>
             <div class="search-bar">
-                <input type="text" placeholder="Search videos...">
+                <label for="search" hidden>Search</label>
+                <input type="text" id="search" placeholder="Search videos...">
                 <button>Search</button>
             </div>
         </header>
@@ -98,7 +102,8 @@
             <div class="comments-section">
                 <h3 class="section-title">Comments (<span id="commentCount">0</span>)</h3>
                 <div class="comment-form">
-                    <textarea placeholder="Add a comment..."></textarea>
+                    <label for="comment" hidden>Comment</label>
+                    <textarea id="comment" placeholder="Add a comment..."></textarea>
                     <button class="comment-btn">Post Comment</button>
                 </div>
                 <div class="comments-list" id="commentsList">
@@ -156,8 +161,5 @@
             </div>
         </footer>
     </div>
-
-    <script src="js/index.js" defer></script>
-    <script src="js/view_video.js" defer></script>
 </body>
 </html>

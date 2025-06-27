@@ -1,59 +1,7 @@
-// Get URL parameters
-function getUrlParameter(name) {
-    name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
-    const regex = new RegExp('[\\?&]' + name + '=([^&#]*)');
-    const results = regex.exec(location.search);
-    return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
-}
-
-// Function to detect file type based on extension
-function getFileType(filename) {
-    const extension = filename.split('.').pop().toLowerCase();
-
-    const videoExtensions = ['mp4', 'webm', 'ogg', 'mov', 'avi'];
-    const imageExtensions = ['jpg', 'jpeg', 'png', 'gif', 'webp'];
-
-    if (videoExtensions.includes(extension)) {
-        return 'video';
-    } else if (imageExtensions.includes(extension)) {
-        return 'image';
-    } else {
-        return 'unknown';
-    }
-}
-
-// Function to load media files from index.txt
-async function loadMediaFiles() {
-    try {
-        const response = await fetch('/index.txt');
-        if (!response.ok) {
-            throw new Error('Failed to load media files');
-        }
-
-        const text = await response.text();
-        return text.trim().split('\n');
-    } catch (error) {
-        console.error('Error loading media files:', error);
-        return [];
-    }
-}
-
-// Function to load comments from comments.json
-async function loadComments() {
-    try {
-        const response = await fetch('/comments.json');
-        if (!response.ok) {
-            throw new Error('Failed to load comments');
-        }
-
-        return await response.json();
-    } catch (error) {
-        console.error('Error loading comments:', error);
-        return [];
-    }
-}
-
 // Function to display the media (video or image)
+import {getFileType, getUrlParameter, loadComments, loadMediaFiles} from "./utils.js";
+import {initBanner} from "./banner.js";
+
 function displayMedia(filename) {
     const videoContainer = document.getElementById('videoContainer');
     const fileType = getFileType(filename);
@@ -86,22 +34,11 @@ function displayComments(comments) {
 
     // Get 1-3 random comments
     const numComments = Math.floor(Math.random() * 3) + 1;
-    const randomComments = [];
-
-    // Ensure we don't pick the same comment twice
-    const commentIndices = new Set();
-    while (commentIndices.size < numComments && commentIndices.size < comments.length) {
-        const randomIndex = Math.floor(Math.random() * comments.length);
-        commentIndices.add(randomIndex);
-    }
-
-    // Add the selected comments to our array
-    commentIndices.forEach(index => {
-        randomComments.push(comments[index]);
-    });
+    const commentStartIndex = Math.floor(Math.random() * (comments.length - numComments + 1));
+    const randomComments = comments.slice(commentStartIndex, commentStartIndex + numComments);
 
     // Update the comment count
-    commentCount.textContent = randomComments.length;
+    commentCount.textContent = String(randomComments.length);
 
     // Clear existing comments
     commentsList.innerHTML = '';
@@ -125,7 +62,7 @@ function displayComments(comments) {
 }
 
 // Function to display related videos
-async function displayRelatedVideos(currentFilename, allFilenames) {
+function displayRelatedVideos(currentFilename, allFilenames) {
     const relatedVideos = document.getElementById('relatedVideos');
 
     // Find the index of the current file
@@ -157,10 +94,10 @@ async function displayRelatedVideos(currentFilename, allFilenames) {
         // Create HTML structure for media item
         mediaItem.innerHTML = `
             <div class="media-thumbnail">
-                ${fileType === 'video' 
-                    ? `<video src="/media/${filename}" muted></video>` 
-                    : `<img src="/media/${filename}" alt="${filename}">`
-                }
+                ${fileType === 'video'
+            ? `<video src="/media/${filename}" muted></video>`
+            : `<img src="/media/${filename}" alt="${filename}">`
+        }
                 <div class="media-type">${fileType === 'video' ? 'VIDEO' : 'IMAGE'}</div>
             </div>
             <div class="media-info">
@@ -183,31 +120,23 @@ async function displayRelatedVideos(currentFilename, allFilenames) {
 
 // Initialize the page
 async function initPage() {
-    // Check if user has already verified age
-    if (localStorage.getItem('ageVerified') === 'true') {
-        document.getElementById('ageVerification').style.display = 'none';
-        document.getElementById('mainContent').style.display = 'block';
+    const mediaId = getUrlParameter('id');
 
-        // Get the media ID from URL
-        const mediaId = getUrlParameter('id');
-
-        if (mediaId) {
-            // Load and display the media
-            displayMedia(mediaId);
-
-            // Load all media files for related videos
-            const allFilenames = await loadMediaFiles();
-            displayRelatedVideos(mediaId, allFilenames);
-
-            // Load and display comments
-            const comments = await loadComments();
-            displayComments(comments);
-        } else {
-            // No media ID provided, redirect to home
-            window.location.href = '/';
-        }
+    if (!mediaId) {
+        window.location.href = '/';
+        return
     }
+    // Load and display the media
+    displayMedia(mediaId);
+
+    // Load all media files for related videos
+    const allFilenames = await loadMediaFiles();
+    displayRelatedVideos(mediaId, allFilenames);
+
+    // Load and display comments
+    const comments = await loadComments();
+    displayComments(comments);
 }
 
 // Initialize the page
-initPage();
+initBanner(initPage)

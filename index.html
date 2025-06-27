@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>NaughtyImad.com</title>
     <link rel="stylesheet" href="css/index.css">
+
+    <script src="js/index.js" defer type="module"></script>
 </head>
 <body>
     <!-- Age Verification Popup -->
@@ -36,7 +38,8 @@
                 </ul>
             </nav>
             <div class="search-bar">
-                <input type="text" placeholder="Search videos...">
+                <label for="search" hidden>Search</label>
+                <input type="text" id="search" placeholder="Search videos...">
                 <button>Search</button>
             </div>
         </header>
@@ -52,7 +55,5 @@
             <p>&copy; 2023 NaughtyImad.com - All Rights Reserved</p>
         </footer>
     </div>
-
-    <script src="js/index.js" defer></script>
 </body>
 </html>

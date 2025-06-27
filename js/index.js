@@ -1,41 +1,8 @@
-const ageVerification = document.getElementById('ageVerification');
-const mainContent = document.getElementById('mainContent');
-const yesButton = document.getElementById('ageVerificationYes');
-const noButton = document.getElementById('ageVerificationNo');
+// Import modules
+import { initBanner } from './banner.js';
+import { getFileType, loadMediaFiles } from './utils.js';
+
 const mediaGrid = document.getElementById('mediaGrid');
-
-// Function to load media files from index.txt
-async function loadMediaFiles() {
-    try {
-        const response = await fetch('index.txt');
-        if (!response.ok) {
-            console.error(await response.text());
-            return [];
-        }
-
-        const text = await response.text();
-        return text.trim().split('\n');
-    } catch (error) {
-        console.error('Error loading media files:', error);
-        return [];
-    }
-}
-
-// Function to detect file type based on extension
-function getFileType(filename) {
-    const extension = filename.split('.').pop().toLowerCase();
-
-    const videoExtensions = ['mp4', 'webm', 'ogg', 'mov', 'avi'];
-    const imageExtensions = ['jpg', 'jpeg', 'png', 'gif', 'webp'];
-
-    if (videoExtensions.includes(extension)) {
-        return 'video';
-    } else if (imageExtensions.includes(extension)) {
-        return 'image';
-    } else {
-        return 'unknown';
-    }
-}
 
 // Function to create media grid items
 function createMediaGrid(filenames) {
@@ -74,34 +41,11 @@ function createMediaGrid(filenames) {
     });
 }
 
-// Initialize the page
-async function initPage() {
-    // Check if user has already verified age
-    if (localStorage.getItem('ageVerified') === 'true') {
-        ageVerification.style.display = 'none';
-        mainContent.style.display = 'block';
-
-        // Load media files
-        const filenames = await loadMediaFiles();
-        createMediaGrid(filenames);
-    }
-
-    // User confirms they are of age
-    yesButton.addEventListener('click', async function() {
-        localStorage.setItem('ageVerified', 'true');
-        ageVerification.style.display = 'none';
-        mainContent.style.display = 'block';
-
-        // Load media files
-        const filenames = await loadMediaFiles();
-        createMediaGrid(filenames);
-    });
-
-    // User confirms they are underage
-    noButton.addEventListener('click', function() {
-        window.location.href = 'https://www.google.com';
-    });
+// Function to load and display media
+async function loadAndDisplayMedia() {
+    const filenames = await loadMediaFiles();
+    createMediaGrid(filenames);
 }
 
-// Initialize the page
-initPage().then();
+// Initialize the banner with callback
+initBanner(loadAndDisplayMedia);
