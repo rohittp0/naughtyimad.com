@@ -6,7 +6,7 @@
  * @returns {string} The value of the parameter
  */
 export function getUrlParameter(name) {
-    name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
+    name = name.replace(/\[/, '\\[').replace(/]/, '\\]');
     const regex = new RegExp('[\\?&]' + name + '=([^&#]*)');
     const results = regex.exec(location.search);
     return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
@@ -71,4 +71,59 @@ export async function loadComments(basePath = '') {
         console.error('Error loading comments:', error);
         return [];
     }
+}
+
+export function createMediaItem(filename) {
+    const fileType = getFileType(filename);
+    const mediaItem = document.createElement('div');
+    const name = filename.split('.')[0]; // Get the name without extension
+    const number = uniqueNumberFromString(filename);
+    const views = (number % 10) / 10 || 1
+
+    mediaItem.className = 'media-item';
+    mediaItem.dataset.filename = filename;
+
+    // Create HTML structure for media item
+    mediaItem.innerHTML = `
+            <div class="media-thumbnail">
+                ${fileType === 'video'
+        ? `<video src="media/${filename}" muted></video>`
+        : `<img src="media/${filename}" alt="${name}">`
+    }
+                <div class="media-type">${fileType === 'video' ? 'VIDEO' : 'IMAGE'}</div>
+            </div>
+            <div class="media-info">
+                <div class="media-title">Hot ${fileType === 'video' ? 'Video' : 'Image'} ${name}</div>
+                <div class="media-meta">
+                    <span>${views}M views</span>
+                    <span>${number % 100}</span>
+                </div>
+            </div>
+        `;
+
+    // Add click event to navigate to view_video page
+    mediaItem.addEventListener('click', () => {
+        window.location.href = `/view_video?id=${filename}`;
+    });
+
+    return mediaItem;
+}
+
+export function createMediaGrid(filenames) {
+    const mediaGrid = document.getElementById('mediaGrid');
+
+    mediaGrid.innerHTML = '';
+
+    filenames.forEach((filename) => {
+        const mediaItem = createMediaItem(filename);
+        mediaGrid.appendChild(mediaItem);
+    });
+}
+
+export function uniqueNumberFromString(str) {
+    let results = ""
+    for (let i = 0; i < str.length; i++) {
+        results += str[i].charCodeAt(0)
+    }
+    return parseInt(results)
 }

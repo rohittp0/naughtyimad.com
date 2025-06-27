@@ -1,10 +1,19 @@
 // Function to display the media (video or image)
-import {getFileType, getUrlParameter, loadComments, loadMediaFiles} from "./utils.js";
+import {
+    createMediaItem,
+    getFileType,
+    getUrlParameter,
+    loadComments,
+    loadMediaFiles,
+    uniqueNumberFromString
+} from "./utils.js";
 import {initBanner} from "./banner.js";
 
 function displayMedia(filename) {
     const videoContainer = document.getElementById('videoContainer');
     const fileType = getFileType(filename);
+    const number = uniqueNumberFromString(filename);
+    const views = (number % 10) / 10 || 1
 
     if (fileType === 'video') {
         videoContainer.innerHTML = `
@@ -25,6 +34,8 @@ function displayMedia(filename) {
 
     // Update the video title
     document.getElementById('videoTitle').textContent = `Hot ${fileType === 'video' ? 'Video' : 'Image'} - ${filename}`;
+    document.getElementById("likes").innerText = String(number % 100);
+    document.getElementById("viewCount").innerText = String(views);
 }
 
 // Function to display comments
@@ -66,54 +77,18 @@ function displayRelatedVideos(currentFilename, allFilenames) {
     const relatedVideos = document.getElementById('relatedVideos');
 
     // Find the index of the current file
-    const currentIndex = allFilenames.indexOf(currentFilename);
+    let currentIndex = allFilenames.indexOf(currentFilename);
+    if( currentIndex === -1)
+        currentIndex = 0
 
-    // Get files that come after the current one (wrap around if needed)
-    let relatedFilenames = [];
-    if (currentIndex !== -1) {
-        // Get up to 6 related videos
-        for (let i = 1; i <= 6; i++) {
-            const index = (currentIndex + i) % allFilenames.length;
-            relatedFilenames.push(allFilenames[index]);
-        }
-    } else {
-        // If current file not found, just use the first 6 files
-        relatedFilenames = allFilenames.slice(0, 6);
-    }
+    const relatedFileNames = allFilenames.slice(currentIndex, (currentIndex + 6 ) % allFilenames.length)
 
     // Clear existing related videos
     relatedVideos.innerHTML = '';
 
     // Add the related videos to the DOM
-    relatedFilenames.forEach((filename, index) => {
-        const fileType = getFileType(filename);
-        const mediaItem = document.createElement('div');
-        mediaItem.className = 'media-item';
-        mediaItem.dataset.filename = filename;
-
-        // Create HTML structure for media item
-        mediaItem.innerHTML = `
-            <div class="media-thumbnail">
-                ${fileType === 'video'
-            ? `<video src="/media/${filename}" muted></video>`
-            : `<img src="/media/${filename}" alt="${filename}">`
-        }
-                <div class="media-type">${fileType === 'video' ? 'VIDEO' : 'IMAGE'}</div>
-            </div>
-            <div class="media-info">
-                <div class="media-title">Hot ${fileType === 'video' ? 'Video' : 'Image'} ${index + 1}</div>
-                <div class="media-meta">
-                    <span>1.2M views</span>
-                    <span>95%</span>
-                </div>
-            </div>
-        `;
-
-        // Add click event to navigate to view_video page
-        mediaItem.addEventListener('click', () => {
-            window.location.href = `/view_video/?id=${filename}`;
-        });
-
+    relatedFileNames.forEach((filename) => {
+        const mediaItem = createMediaItem(filename);
         relatedVideos.appendChild(mediaItem);
     });
 }
