@@ -72,3 +72,11 @@ export async function loadComments(basePath = '') {
         return [];
     }
 }
+
+export const uniqueNumberFromString = ( str ) => {
+    let results = ""
+    for (let i = 0; i < str.length; i++) {
+        results += str[i].charCodeAt(0)
+    }
+    return parseInt(results)
+}

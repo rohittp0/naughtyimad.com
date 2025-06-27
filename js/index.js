@@ -1,6 +1,6 @@
 // Import modules
 import { initBanner } from './banner.js';
-import { getFileType, loadMediaFiles } from './utils.js';
+import {getFileType, loadMediaFiles, uniqueNumberFromString} from './utils.js';
 
 const mediaGrid = document.getElementById('mediaGrid');
 
@@ -8,9 +8,13 @@ const mediaGrid = document.getElementById('mediaGrid');
 function createMediaGrid(filenames) {
     mediaGrid.innerHTML = '';
 
-    filenames.forEach((filename, index) => {
+    filenames.forEach((filename) => {
         const fileType = getFileType(filename);
         const mediaItem = document.createElement('div');
+        const name = filename.split('.')[0]; // Get the name without extension
+        const number = uniqueNumberFromString(filename);
+        const views = (number % 10) / 10 || 1
+
         mediaItem.className = 'media-item';
         mediaItem.dataset.filename = filename;
 
@@ -19,15 +23,15 @@ function createMediaGrid(filenames) {
             <div class="media-thumbnail">
                 ${fileType === 'video' 
                     ? `<video src="media/${filename}" muted></video>` 
-                    : `<img src="media/${filename}" alt="${filename}">`
+                    : `<img src="media/${filename}" alt="${name}">`
                 }
                 <div class="media-type">${fileType === 'video' ? 'VIDEO' : 'IMAGE'}</div>
             </div>
             <div class="media-info">
-                <div class="media-title">Hot ${fileType === 'video' ? 'Video' : 'Image'} ${index + 1}</div>
+                <div class="media-title">Hot ${fileType === 'video' ? 'Video' : 'Image'} ${name}</div>
                 <div class="media-meta">
-                    <span>1.2M views</span>
-                    <span>95%</span>
+                    <span>${views}M views</span>
+                    <span>${number % 100}</span>
                 </div>
             </div>
         `;
